@@ -3,7 +3,7 @@ import md5 from "spark-md5";
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      OPENAI_API_KEY?: string;
+      API_KEY?: string;
       CODE?: string;
       PROXY_URL?: string;
       VERCEL?: string;
@@ -32,7 +32,7 @@ export const getServerSideConfig = () => {
   }
 
   return {
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.API_KEY,
     code: process.env.CODE,
     codes: ACCESS_CODES,
     needCode: ACCESS_CODES.size > 0,

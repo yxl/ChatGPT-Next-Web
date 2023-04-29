@@ -7,7 +7,6 @@ import {
   useAppConfig,
   useChatStore,
 } from "./store";
-import { showToast } from "./components/ui-lib";
 
 const TIME_OUT_MS = 60000;
 
@@ -44,6 +43,8 @@ const makeRequestParam = (
     model: modelConfig.model,
     temperature: modelConfig.temperature,
     presence_penalty: modelConfig.presence_penalty,
+    max_tokens: modelConfig.max_tokens,
+    top_p: 1,
   };
 };
 
@@ -94,56 +95,6 @@ export async function requestChat(
   } catch (error) {
     console.error("[Request Chat] ", error, res.body);
   }
-}
-
-export async function requestUsage() {
-  const formatDate = (d: Date) =>
-    `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d
-      .getDate()
-      .toString()
-      .padStart(2, "0")}`;
-  const ONE_DAY = 2 * 24 * 60 * 60 * 1000;
-  const now = new Date(Date.now() + ONE_DAY);
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const startDate = formatDate(startOfMonth);
-  const endDate = formatDate(now);
-
-  const [used, subs] = await Promise.all([
-    requestOpenaiClient(
-      `dashboard/billing/usage?start_date=${startDate}&end_date=${endDate}`,
-    )(null, "GET"),
-    requestOpenaiClient("dashboard/billing/subscription")(null, "GET"),
-  ]);
-
-  const response = (await used.json()) as {
-    total_usage?: number;
-    error?: {
-      type: string;
-      message: string;
-    };
-  };
-
-  const total = (await subs.json()) as {
-    hard_limit_usd?: number;
-  };
-
-  if (response.error && response.error.type) {
-    showToast(response.error.message);
-    return;
-  }
-
-  if (response.total_usage) {
-    response.total_usage = Math.round(response.total_usage) / 100;
-  }
-
-  if (total.hard_limit_usd) {
-    total.hard_limit_usd = Math.round(total.hard_limit_usd * 100) / 100;
-  }
-
-  return {
-    used: response.total_usage,
-    subscription: total.hard_limit_usd,
-  };
 }
 
 export async function requestChatStream(

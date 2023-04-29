@@ -311,6 +311,7 @@ export const useChatStore = create<ChatStore>()(
           },
           filterBot: !useAppConfig.getState().sendBotMessages,
           modelConfig: useAppConfig.getState().modelConfig,
+          model: useAppConfig.getState().modelConfig.model,
         });
       },
 
@@ -397,6 +398,7 @@ export const useChatStore = create<ChatStore>()(
 
       summarizeSession() {
         const session = get().currentSession();
+        const config = useAppConfig.getState();
 
         // should summarize topic after chating more than 50 words
         const SUMMARIZE_MIN_LEN = 50;
@@ -405,7 +407,7 @@ export const useChatStore = create<ChatStore>()(
           countMessages(session.messages) >= SUMMARIZE_MIN_LEN
         ) {
           requestWithPrompt(session.messages, Locale.Store.Prompt.Topic, {
-            model: "gpt-3.5-turbo",
+            model: config.modelConfig.model,
           }).then((res) => {
             get().updateCurrentSession(
               (session) =>
@@ -414,7 +416,6 @@ export const useChatStore = create<ChatStore>()(
           });
         }
 
-        const config = useAppConfig.getState();
         let toBeSummarizedMsgs = session.messages.slice(
           session.lastSummarizeIndex,
         );

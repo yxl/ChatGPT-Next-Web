@@ -14,10 +14,10 @@
 
 ![vercel-create-3](./images/vercel/vercel-create-3.jpg)
 1. 在项目配置页，点开 Environmane Variables 开始配置环境变量；
-2. 依次新增名为 OPENAI_API_KEY 和 CODE 的环境变量；
+2. 依次新增名为 API_KEY 和 CODE 的环境变量；
 3. 填入环境变量对应的值；
 4. 点击 Add 确认增加环境变量；
-5. 请确保你添加了 OPENAI_API_KEY，否则无法使用；
+5. 请确保你添加了 API_KEY，否则无法使用；
 6. 点击 Deploy，创建完成，耐心等待 5 分钟左右部署完成。
 
 ## 如何增加自定义域名

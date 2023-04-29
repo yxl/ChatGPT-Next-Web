@@ -14,7 +14,7 @@ One-Click to deploy well-designed ChatGPT web UI on Vercel.
 [演示](https://chat-gpt-next-web.vercel.app/) / [反馈](https://github.com/Yidadaa/ChatGPT-Next-Web/issues) / [QQ 群](https://user-images.githubusercontent.com/16968934/234462588-e8eff256-f5ca-46ef-8f5f-d7db6d28735a.jpg) / [打赏开发者](https://user-images.githubusercontent.com/16968934/227772541-5bcd52d8-61b7-488c-a203-0330d8006e2b.jpg)
 
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYidadaa%2FChatGPT-Next-Web&env=OPENAI_API_KEY&env=CODE&project-name=chatgpt-next-web&repository-name=ChatGPT-Next-Web)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYidadaa%2FChatGPT-Next-Web&env=API_KEY&env=CODE&project-name=chatgpt-next-web&repository-name=ChatGPT-Next-Web)
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Yidadaa/ChatGPT-Next-Web)
 
@@ -90,7 +90,7 @@ One-Click to deploy well-designed ChatGPT web UI on Vercel.
 
 1. Get [OpenAI API Key](https://platform.openai.com/account/api-keys);
 2. Click
-   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYidadaa%2FChatGPT-Next-Web&env=OPENAI_API_KEY&env=CODE&project-name=chatgpt-next-web&repository-name=ChatGPT-Next-Web), remember that `CODE` is your page password;
+   [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYidadaa%2FChatGPT-Next-Web&env=API_KEY&env=CODE&project-name=chatgpt-next-web&repository-name=ChatGPT-Next-Web), remember that `CODE` is your page password;
 3. Enjoy :)
 
 ## FAQ
@@ -143,7 +143,7 @@ After adding or modifying this environment variable, please redeploy the project
 
 > [简体中文 > 如何配置 api key、访问密码、接口代理](./README_CN.md#环境变量)
 
-### `OPENAI_API_KEY` (required)
+### `API_KEY` (required)
 
 Your openai api key.
 
@@ -172,7 +172,7 @@ Specify OpenAI organization ID.
 Before starting development, you must create a new `.env.local` file at project root, and place your api key into it:
 
 ```
-OPENAI_API_KEY=<your api key here>
+API_KEY=<your api key here>
 ```
 
 ### Local Development
@@ -195,7 +195,7 @@ yarn dev
 docker pull yidadaa/chatgpt-next-web
 
 docker run -d -p 3000:3000 \
-   -e OPENAI_API_KEY="sk-xxxx" \
+   -e API_KEY="sk-xxxx" \
    -e CODE="your-password" \
    yidadaa/chatgpt-next-web
 ```
@@ -204,7 +204,7 @@ You can start service behind a proxy:
 
 ```shell
 docker run -d -p 3000:3000 \
-   -e OPENAI_API_KEY="sk-xxxx" \
+   -e API_KEY="sk-xxxx" \
    -e CODE="your-password" \
    -e PROXY_URL="http://localhost:7890" \
    yidadaa/chatgpt-next-web
