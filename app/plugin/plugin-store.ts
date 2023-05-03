@@ -1,13 +1,13 @@
 import { requestChat } from "../api/common-server";
 const similarity = require("compute-cosine-similarity");
 
-class Plugin {
+export class Plugin {
   constructor(
     public name_for_model: string,
     public description_for_model: string,
     public description_for_model_embedding: number[],
     public ai_plugin_json: any,
-    public api_yaml: string,
+    public api_yaml: any,
   ) {}
 }
 
@@ -59,8 +59,11 @@ export async function findByDescriptionSimilarity(
   prompt: string,
   candidate_model_names: string[],
   threshold: number = 0.5,
-  limit: number = 10,
+  limit: number = 2,
 ): Promise<string[]> {
+  if (db.size === 0) {
+    await init();
+  }
   const prompt_embedding = await getEmbedding(prompt);
   const distances = candidate_model_names.map((name) => {
     const plugin = db.get(name);

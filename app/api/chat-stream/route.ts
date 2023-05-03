@@ -1,47 +1,25 @@
-import { createParser } from "eventsource-parser";
 import { NextRequest } from "next/server";
-import { requestOpenai } from "../common";
+import { requestStreamChat } from "../common-server";
+import { findByDescriptionSimilarity } from "@/app/plugin/plugin-store";
+import { invokePlugins } from "@/app/plugin/plugin-engine";
 
 async function createStream(req: NextRequest) {
-  const encoder = new TextEncoder();
-  const decoder = new TextDecoder();
+  const data = await req.json();
+  // hack 一个用户名
+  data.user = "小小";
+  console.log("chat-stream", data);
 
-  const res = await requestOpenai(req);
-
-  const contentType = res.headers.get("Content-Type") ?? "";
-  if (!contentType.includes("stream")) {
-    const content = await (
-      await res.text()
-    ).replace(/provided:.*. You/, "provided: ***. You");
-    console.log("[Stream] error ", content);
-    return "```json\n" + content + "```";
+  // 检查是否命中插件
+  const lastPrompt = data.messages[data.messages.length - 1].content;
+  const plugins = await findByDescriptionSimilarity(lastPrompt, ["todo"]);
+  if (plugins.length > 0) {
+    console.log(`命中插件${plugins}`);
+    return invokePlugins(data, plugins);
   }
 
   const stream = new ReadableStream({
     async start(controller) {
-      function onParse(event: any) {
-        if (event.type === "event") {
-          const data = event.data;
-          // https://beta.openai.com/docs/api-reference/completions/create#completions/create-stream
-          if (data === "[DONE]") {
-            controller.close();
-            return;
-          }
-          try {
-            const json = JSON.parse(data);
-            const text = json.choices[0].delta.content;
-            const queue = encoder.encode(text);
-            controller.enqueue(queue);
-          } catch (e) {
-            controller.error(e);
-          }
-        }
-      }
-
-      const parser = createParser(onParse);
-      for await (const chunk of res.body as any) {
-        parser.feed(decoder.decode(chunk, { stream: true }));
-      }
+      requestStreamChat(req.headers.get("path")!, data, controller);
     },
   });
   return stream;

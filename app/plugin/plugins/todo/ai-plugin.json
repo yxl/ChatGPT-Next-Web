@@ -1,6 +1,6 @@
 {
   "schema_version": "v1",
-  "name_for_human": "TODO Plugin (no auth)",
+  "name_for_human": "TODO插件",
   "name_for_model": "todo",
   "description_for_human": "这个插件可以帮助你管理你的TODO清单，你可以添加、删除和查看你的TODO事项。",
   "description_for_model": "这个插件可以帮助你管理你的TODO清单，你可以添加、删除和查看你的TODO事项。",
