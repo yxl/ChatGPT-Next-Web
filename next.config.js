@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const withYaml = require('next-plugin-yaml');
+ 
 const nextConfig = {
   experimental: {
     appDir: true,
@@ -15,4 +17,4 @@ const nextConfig = {
   output: "standalone",
 };
 
-module.exports = nextConfig;
+module.exports = withYaml(nextConfig);

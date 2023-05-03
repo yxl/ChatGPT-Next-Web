@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "TODO Plugin (no auth)",
+  "name_for_model": "todo",
+  "description_for_human": "这个插件可以帮助你管理你的TODO清单，你可以添加、删除和查看你的TODO事项。",
+  "description_for_model": "这个插件可以帮助你管理你的TODO清单，你可以添加、删除和查看你的TODO事项。",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "http://localhost:5003/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "http://localhost:5003/logo.png",
+  "contact_email": "legal@example.com",
+  "legal_info_url": "http://example.com/legal"
+}

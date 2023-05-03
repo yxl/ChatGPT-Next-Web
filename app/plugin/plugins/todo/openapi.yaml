@@ -1,0 +1,93 @@
+openapi: 3.0.1
+info:
+  title: TODO插件
+  description: 这个插件可以帮助用户使用式说创建和管理TODO清单。在使用插件查询之前，如果不知道用户的用户名，请先向用户询问。否则，请使用全局用户名“global”。
+  version: 'v1'
+servers:
+  - url: http://localhost:5003
+paths:
+  /todos/{username}:
+    get:
+      operationId: getTodos
+      summary: 获取TODO清单列表
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: 用户名
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTodosResponse'
+    post:
+      operationId: addTodo
+      summary: 添加一项TODO事项
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: 用户名。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addTodoRequest'
+      responses:
+        "200":
+          description: OK
+    delete:
+      operationId: deleteTodo
+      summary: 从清单中删除一项TODO事项
+      parameters:
+      - in: path
+        name: username
+        schema:
+            type: string
+        required: true
+        description: 用户名。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteTodoRequest'
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    getTodosResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            type: string
+          description: TODO清单列表。
+    addTodoRequest:
+      type: object
+      required:
+      - todo
+      properties:
+        todo:
+          type: string
+          description: 待添加的TODO事项。
+          required: true
+    deleteTodoRequest:
+      type: object
+      required:
+      - todo_idx
+      properties:
+        todo_idx:
+          type: integer
+          description: 待删除TODO事项的索引。
+          required: true
